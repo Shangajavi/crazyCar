@@ -1,0 +1,46 @@
+using System;
+using UnityEngine;
+
+public class CarMovement : MonoBehaviour
+{
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private float driveSpeed, steerSpeed;
+    [SerializeField] private WheelCollider wheel1, wheel2, wheel3, wheel4;
+    [SerializeField] private float forceImpulse;
+    float hInput,vInput;
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+       hInput = Input.GetAxis("Horizontal");
+       vInput = Input.GetAxis("Vertical");
+       Impulsos();
+    }
+
+    private void FixedUpdate()
+    {
+        float motor = vInput * driveSpeed;
+        wheel1.motorTorque = motor;
+        wheel2.motorTorque = motor;
+        wheel3.motorTorque = motor;
+        wheel4.motorTorque = motor;
+        wheel1.steerAngle = hInput * steerSpeed;
+        wheel2.steerAngle = hInput * steerSpeed;
+    }
+
+    private void Impulsos()
+    {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            rb.AddForce(Vector3.left * forceImpulse, ForceMode.Impulse);
+        }
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            rb.AddForce(Vector3.right * forceImpulse, ForceMode.Impulse);
+        }
+    }
+}
