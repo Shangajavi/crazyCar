@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CarMovement : MonoBehaviour
 {
+    [SerializeField] private GameObject Orientation;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float driveSpeed, steerSpeed;
     [SerializeField] private WheelCollider wheel1, wheel2, wheel3, wheel4;
@@ -36,11 +37,12 @@ public class CarMovement : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            rb.AddForce(Vector3.left * forceImpulse, ForceMode.Impulse);
+            rb.AddForce(-Orientation.transform.right * forceImpulse, ForceMode.Impulse);
         }
         if(Input.GetKeyDown(KeyCode.E))
         {
-            rb.AddForce(Vector3.right * forceImpulse, ForceMode.Impulse);
+            rb.AddForce(Orientation.transform.right * forceImpulse, ForceMode.Impulse);
+
         }
     }
 }
