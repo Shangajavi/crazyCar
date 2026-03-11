@@ -669,7 +669,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e519a26cfa8cfb546aa6864b89b19cea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Arrow
-  Destination: {fileID: 0}
+  Destination1: {fileID: 0}
+  Destination2: {fileID: 0}
+  Destination3: {fileID: 0}
+  HasitPassed1: 0
+  HasitPassed2: 0
 --- !u!1 &6626104637367617637
 GameObject:
   m_ObjectHideFlags: 0
