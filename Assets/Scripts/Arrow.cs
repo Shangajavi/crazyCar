@@ -6,8 +6,8 @@ public class Arrow : MonoBehaviour
     [SerializeField] private GameObject Destination1;
     [SerializeField] private GameObject Destination2;
     [SerializeField] private GameObject Destination3;
-     public bool HasitPassed1 = false;
-    public bool HasitPassed2 = false;
+     public static bool HasitPassed1 = false;
+     public static bool HasitPassed2 = false;
     private Vector3 DestinationPos;
 
     // Update is called once per frame
@@ -31,14 +31,15 @@ public class Arrow : MonoBehaviour
         transform.LookAt(DestinationPos);
     }
 
-    private void OnTriggerEnter(Collider other)
+
+
+    public static void Hasitpassed(bool point1,bool point2)
     {
-        if (other.gameObject.CompareTag("Destination1"))
+        if (point1 == true)
         {
             HasitPassed1 = true;
         }
-
-        if (other.gameObject.CompareTag("Destination2"))
+        if (point2 == true)
         {
             HasitPassed2 = true;
         }

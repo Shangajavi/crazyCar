@@ -8,9 +8,12 @@ public class CarMovement : MonoBehaviour
     [SerializeField] private float driveSpeed, steerSpeed;
     [SerializeField] private WheelCollider wheel1, wheel2, wheel3, wheel4;
     [SerializeField] private float forceImpulse;
+    [SerializeField] private bool HasitPassed1 = false, HasitPassed2 = false;
     float hInput,vInput;
+
     void Awake()
     {
+        
         rb = GetComponent<Rigidbody>();
     }
 
@@ -52,5 +55,15 @@ public class CarMovement : MonoBehaviour
         {
             Destroy(other.gameObject);
         }
+        if (other.gameObject.CompareTag("Destination1"))
+        {
+            Arrow.Hasitpassed(true,false);
+        }
+
+        if (other.gameObject.CompareTag("Destination2"))
+        {
+            Arrow.Hasitpassed(true,true);
+        }
     }
+
 }
