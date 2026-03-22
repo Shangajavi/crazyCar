@@ -9,11 +9,17 @@ public class CarMovement : MonoBehaviour
     [SerializeField] private WheelCollider wheel1, wheel2, wheel3, wheel4;
     [SerializeField] private float forceImpulse;
     [SerializeField] private bool HasitPassed1 = false, HasitPassed2 = false;
+    public bool isPlaying;
+    public int coin;
+    private float time;
+    [SerializeField] private float timer = 500f;
+    public float timePoints;
+
     float hInput,vInput;
 
     void Awake()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
     }
 
@@ -23,6 +29,8 @@ public class CarMovement : MonoBehaviour
        hInput = Input.GetAxis("Horizontal");
        vInput = Input.GetAxis("Vertical");
        Impulsos();
+       time += Time.deltaTime;
+       timePoints = timer - time;
     }
 
     private void FixedUpdate()
@@ -54,6 +62,7 @@ public class CarMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Coin"))
         {
             Destroy(other.gameObject);
+            coin++;
         }
         if (other.gameObject.CompareTag("Destination1"))
         {
