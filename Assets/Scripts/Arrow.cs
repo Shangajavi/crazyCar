@@ -44,4 +44,5 @@ public class Arrow : MonoBehaviour
             HasitPassed2 = true;
         }
     }
+    
 }

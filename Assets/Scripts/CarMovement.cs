@@ -1,5 +1,10 @@
 using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CarMovement : MonoBehaviour
 {
@@ -9,9 +14,18 @@ public class CarMovement : MonoBehaviour
     [SerializeField] private WheelCollider wheel1, wheel2, wheel3, wheel4;
     [SerializeField] private float forceImpulse;
     [SerializeField] private bool HasitPassed1 = false, HasitPassed2 = false;
-    public bool isPlaying;
+    [SerializeField] private TextMeshProUGUI countCoin;
+    [SerializeField] private TextMeshProUGUI countTimer;
+    [SerializeField] private TextMeshProUGUI TotalPoints;
     public int coin;
+    private AudioSource audioCoin;
+    [SerializeField] private GameObject DeathScreen;
+    [SerializeField] private GameObject Win;
+    [SerializeField] private AudioClip audioCoinT;
+    [SerializeField] private AudioClip AudioCar;
+    [SerializeField] private bool isPlaying = true;
     private float time;
+    private float TotaltimePointss;
     [SerializeField] private float timer = 500f;
     public float timePoints;
 
@@ -19,6 +33,7 @@ public class CarMovement : MonoBehaviour
 
     void Awake()
     {
+        audioCoin = GetComponent<AudioSource>();
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
     }
@@ -30,7 +45,18 @@ public class CarMovement : MonoBehaviour
        vInput = Input.GetAxis("Vertical");
        Impulsos();
        time += Time.deltaTime;
-       timePoints = timer - time;
+       if (isPlaying == true)
+       {
+           timePoints = timer - time;
+       }
+       else
+       {
+            TotaltimePointss = timePoints;
+       }
+       Coins();
+       Timer();
+       Points();
+
     }
 
     private void FixedUpdate()
@@ -61,8 +87,10 @@ public class CarMovement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Coin"))
         {
+            audioCoin.PlayOneShot(audioCoinT);
             Destroy(other.gameObject);
             coin++;
+            
         }
         if (other.gameObject.CompareTag("Destination1"))
         {
@@ -72,7 +100,62 @@ public class CarMovement : MonoBehaviour
         if (other.gameObject.CompareTag("Destination2"))
         {
             Arrow.Hasitpassed(true,true);
+        }        
+        if (other.gameObject.CompareTag("Destination3"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);        
         }
+        if (other.gameObject.CompareTag("End"))
+        {
+            isPlaying = false;
+            StartCoroutine(WinDelay());
+        }
+        
+    }
+
+    private void Coins()
+    {
+        countCoin.text = "Coins: " + coin;
+        
+    }
+
+    private void Points()
+    {
+        TotalPoints.text = "Total Points: " + coin + TotaltimePointss/2;
+    }
+
+    private void Timer()
+    {
+        countTimer.text = "Time: " + timePoints;
+        if (timePoints >= 0)
+        {
+            countTimer.color = Color.cornflowerBlue;
+        }
+        if (timePoints <= 0)
+        {
+            countTimer.color = Color.red;
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        audioCoin.PlayOneShot(AudioCar);
+        if (other.gameObject.CompareTag("kill"))
+        {
+            StartCoroutine(RespawnDelay());
+        }
+    }
+    private IEnumerator RespawnDelay()
+    {
+        DeathScreen.SetActive(true);
+        yield return new WaitForSeconds(5);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    private IEnumerator WinDelay()
+    {
+        Win.SetActive(true);
+        yield return new WaitForSeconds(5);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex * 0);
     }
 
 }

@@ -8,6 +8,8 @@ TagManager:
   - Destination1
   - Destination2
   - Destination3
+  - kill
+  - End
   layers:
   - Default
   - TransparentFX
