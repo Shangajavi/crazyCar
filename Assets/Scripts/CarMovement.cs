@@ -121,7 +121,9 @@ public class CarMovement : MonoBehaviour
 
     private void Points()
     {
-        TotalPoints.text = "Total Points: " + coin + TotaltimePointss/2;
+        float total = coin + (TotaltimePointss / 2f);
+        TotalPoints.text = "Total: " + total;
+
     }
 
     private void Timer()
